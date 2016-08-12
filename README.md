@@ -19,6 +19,17 @@ getOrElse({ some: [window,'a'], none: {} })
 // {x:4} - does exist, so expected value is returned
 ```
 
+### Example ES6
+```javascript
+import getOrElse from 'get-or-else';
+
+window.a = {x:4};
+getOrElse({ some: [window,'a.b.c'], none: {} });
+// {} - does not exist, so `none` is used
+getOrElse({ some: [window,'a'], none: {} })
+// {x:4} - does exist, so expected value is returned
+```
+
 ### NPM Package
 [get-or-else](https://www.npmjs.com/package/get-or-else)
 
