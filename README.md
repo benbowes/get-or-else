@@ -19,15 +19,27 @@ getOrElse({ some: [window,'a'], none: {} })
 // {x:4} - does exist, so expected value is returned
 ```
 
-### Example ES6
+### Example ES6 React
 ```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
 import getOrElse from 'get-or-else';
 
-window.a = {x:4};
-getOrElse({ some: [window,'a.b.c'], none: {} });
-// {} - does not exist, so `none` is used
-getOrElse({ some: [window,'a'], none: {} })
-// {x:4} - does exist, so expected value is returned
+const data = { name: { first: 'James' } };
+
+const BaseComponent = () => {
+  return (
+    <h1>
+      Hi
+      <span> {getOrElse({ some:[data,'name.first'], none:'' })}</span>
+      <span> {getOrElse({ some:[data,'name.last'], none:'' })}</span>
+    </h1>
+  );
+};
+
+ReactDOM.render(<BaseComponent />, document.getElementById('root'));
+
+// Prints <h1>Hi <span>James</span></h1> - data.name.last does not exist
 ```
 
 ### NPM Package
