@@ -15,6 +15,7 @@
  */
 
 var getOrElse = function( someOrNoneObj ) {
+  if (!someOrNoneObj.some[0]) return someOrNoneObj.none;
   var contextObj = someOrNoneObj.some[0];
   var namespace = someOrNoneObj.some[1].split('.');
   var value = contextObj; // reassigns to obj[key] on each array.every iteration

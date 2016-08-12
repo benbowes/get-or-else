@@ -34,4 +34,10 @@ describe('getOrElse', function(){
     expect(result).toEqual({p:null,x:3,y:{z:56}});
   });
 
+  it('should return `none` value if contextObj is undefined', function(){
+    var n = undefined;
+    var result = getOrElse({ some: [n,'b'], none:'nopes' });
+    expect(result).toEqual('nopes');
+  });
+
 });
