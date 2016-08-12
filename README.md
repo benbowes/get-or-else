@@ -13,9 +13,9 @@ Useful if you have an untrustworthy data source. It will probably save you a bit
 var getOrElse = require("get-or-else");
 
 window.a = {x:4};
-getOrElse({ some: [window,'a.b.c'], none: {} });
-// {} - does not exist, so `none` is used
-getOrElse({ some: [window,'a'], none: {} })
+getOrElse({ get: [window,'a.b.c'], else: {} });
+// {} - does not exist, so `else` is used
+getOrElse({ get: [window,'a'], else: {} })
 // {x:4} - does exist, so expected value is returned
 ```
 
@@ -25,21 +25,22 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import getOrElse from 'get-or-else';
 
-const data = { name: { first: 'James' } };
+const data = { name: { first: 'James' }, salutation: 'Mr' };
+const salutation = getOrElse({ get:[data,'salutation'], else:false });
 
 const BaseComponent = () => {
   return (
-    <h1>
-      Hi
-      <span> {getOrElse({ some:[data,'name.first'], none:'' })}</span>
-      <span> {getOrElse({ some:[data,'name.last'], none:'' })}</span>
+    <h1>Hi
+    {salutation && <span> {salutation} </span>}
+    <span> {getOrElse({ get:[data,'name.first'], else:'' })}</span>
+    <span> {getOrElse({ get:[data,'name.last'], else:'' })}</span>
     </h1>
   );
 };
 
 ReactDOM.render(<BaseComponent />, document.getElementById('root'));
-
-// Renders <h1>Hi <span>James</span></h1> - data.name.last does not exist
+// Renders `<h1>Hi<span> Mr </span><span>James</span><span></span></h1>`
+// data.name.last does not exist so it does not display
 ```
 
 ### NPM Package
@@ -52,31 +53,31 @@ IE 9 or greater - [Array.every on Mozilla's compatibility chart](https://develop
 
 ```javascript
 /**
- * @param {Object} someOrNoneObj
- * @param {Array} someOrNoneObj.some
- * @param {Object} someOrNoneObj.some[0] - the root object to your namespace.
+ * @param {Object} getOrElseObj
+ * @param {Array} getOrElseObj.get
+ * @param {Object} getOrElseObj.get[0] - the root object to your namespace.
  * e.g. this, window, someObj (Must exist).
- * @param {String} someOrNoneObj.some[1] - a string representation of the namespace you
+ * @param {String} getOrElseObj.get[1] - a string representation of the namespace you
  * are targeting to get it's property. e.g. 'a.b.c.d'
- * @returns {Object} the item you hope for `some`, or a backup item `none` if it does not exist.
+ * @returns {Object} the item you hope for `get`, or a backup item `else` if it does not exist.
  * @example
  * GIVEN
  * window.a = {x:4}
  *
- * getOrElse({ some: [window,'a.b.c'], none: {} }) // {} - does not exist, so `none` is used
- * getOrElse({ some: [window,'a'], none: {} }) // {x:4} - does exist, so expected value is returned
+ * getOrElse({ get: [window,'a.b.c'], else: {} }) // {} - does not exist, so `else` is used
+ * getOrElse({ get: [window,'a'], else: {} }) // {x:4} - does exist, so expected value is returned
  */
 
-var getOrElse = function( someOrNoneObj ) {
-  if (!someOrNoneObj.some[0]) return someOrNoneObj.none;
-  var contextObj = someOrNoneObj.some[0];
-  var namespace = someOrNoneObj.some[1].split('.');
+var getOrElse = function( getOrElseObj ) {
+  if (!getOrElseObj.get[0]) return getOrElseObj.else;
+  var contextObj = getOrElseObj.get[0];
+  var namespace = getOrElseObj.get[1].split('.');
   var value = contextObj; // reassigns to obj[key] on each array.every iteration
   return (
     namespace.every( function( key ) {
       return (value = value[key]) != undefined
     })
-  ) ? value : someOrNoneObj.none;
+  ) ? value : getOrElseObj.else;
 };
 
 module.exports = getOrElse;
@@ -87,5 +88,4 @@ Given you have [Node](https://nodejs.org/en/) installed, `cd` into this folder a
 ```
 npm install
 npm test
-
 ```
