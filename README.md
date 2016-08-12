@@ -20,26 +20,37 @@ getOrElse({ get: [window,'a'], else: {} })
 ```
 
 ### Example ES6 React
+see this repo [get-or-else-demo](https://github.com/benbowes/get-or-else-demo)
 ```javascript
 import React from 'react';
 import ReactDOM from 'react-dom';
 import getOrElse from 'get-or-else';
 
-const data = { name: { first: 'James' }, salutation: 'Mr' };
-const salutation = getOrElse({ get:[data,'salutation'], else:false });
+const data = {
+  salutation: 'Mr',
+  name: {
+    first: 'James'
+  }
+};
+
+const salutation = getOrElse({
+  get: [data,'salutation'],
+  else: false
+});
 
 const BaseComponent = () => {
   return (
-    <h1>Hi
+    <h1>We have been expecting you
     {salutation && <span> {salutation} </span>}
-    <span> {getOrElse({ get:[data,'name.first'], else:'' })}</span>
-    <span> {getOrElse({ get:[data,'name.last'], else:'' })}</span>
+    <span> {getOrElse({ get:[data,'name.first'], else:''})}</span>
+    <span> {getOrElse({ get:[data,'name.last'], else:''})}</span>
     </h1>
   );
 };
 
 ReactDOM.render(<BaseComponent />, document.getElementById('root'));
-// Renders `<h1>Hi<span> Mr </span><span>James</span><span></span></h1>`
+
+// Renders `<h1>We have been expecting you<span> Mr </span><span>James</span><span></span></h1>`
 // data.name.last does not exist so it does not display
 ```
 
