@@ -8,7 +8,7 @@ Request an object property at a given namespace with a backup value, incase the 
 
 Useful if you have an untrustworthy data source. It will probably save you a bit of if, else-ery.
 
-### Example 1 ES5
+### Example ES5
 ```javascript
 var getOrElse = require("get-or-else");
 
