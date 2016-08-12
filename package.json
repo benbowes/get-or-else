@@ -1,0 +1,35 @@
+{
+  "name": "get-or-else",
+  "version": "1.0.0",
+  "description": "Get Or Else in Javascript",
+  "main": "index.js",
+  "scripts": {
+    "test:lint": "eslint index.js",
+    "test:unit": "mocha test.js",
+    "test": "npm run test:lint && npm run test:unit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/benbowes/get-or-else.git"
+  },
+  "keywords": [
+    "get",
+    "or",
+    "else",
+    "use",
+    "default",
+    "Javscript",
+    "ES5"
+  ],
+  "author": "Ben Bowes <bb.benbowes.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/benbowes/get-or-else/issues"
+  },
+  "homepage": "https://github.com/benbowes/get-or-else#readme",
+  "devDependencies": {
+    "eslint": "^3.2.2",
+    "expect": "^1.20.2",
+    "mocha": "^3.0.2"
+  }
+}
