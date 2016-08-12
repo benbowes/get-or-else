@@ -1,6 +1,6 @@
 {
   "name": "get-or-else",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Get Or Else in Javascript",
   "main": "index.js",
   "scripts": {

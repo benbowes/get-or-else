@@ -39,7 +39,7 @@ const BaseComponent = () => {
 
 ReactDOM.render(<BaseComponent />, document.getElementById('root'));
 
-// Prints <h1>Hi <span>James</span></h1> - data.name.last does not exist
+// Renders <h1>Hi <span>James</span></h1> - data.name.last does not exist
 ```
 
 ### NPM Package
@@ -68,6 +68,7 @@ IE 9 or greater - [Array.every on Mozilla's compatibility chart](https://develop
  */
 
 var getOrElse = function( someOrNoneObj ) {
+  if (!someOrNoneObj.some[0]) return someOrNoneObj.none;
   var contextObj = someOrNoneObj.some[0];
   var namespace = someOrNoneObj.some[1].split('.');
   var value = contextObj; // reassigns to obj[key] on each array.every iteration
