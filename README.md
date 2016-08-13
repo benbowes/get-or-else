@@ -19,45 +19,6 @@ getOrElse({ get: [window,'a'], else: {} })
 // {x:4} - does exist, so expected value is returned
 ```
 
-### Example ES6 React
-see this repo [get-or-else-demo](https://github.com/benbowes/get-or-else-demo)
-```javascript
-import React from 'react';
-import ReactDOM from 'react-dom';
-import getOrElse from 'get-or-else';
-
-const nameObj = {
-  salutation: 'Mr',
-  name: {
-    first: 'James'
-  }
-};
-
-const salutation = getOrElse({
-  get: [nameObj,'salutation'],
-  else: false
-});
-
-const BaseComponent = () => {
-  return (
-    <h1>We have been expecting you
-
-    {salutation && <span> {salutation} </span>}
-
-    <span> {getOrElse({ get: [nameObj,'name.first'], else: '' })}</span>
-
-    <span> {getOrElse({ get: [nameObj,'name.last'], else: '' })}</span>
-
-    </h1>
-  );
-};
-
-ReactDOM.render(<BaseComponent />, document.getElementById('root'));
-
-// Renders `<h1>We have been expecting you<span> Mr </span><span>James</span><span></span></h1>`
-// nameObj.name.last does not exist so it does not display
-```
-
 ### Example ES6 Redux
 ```javascript
 import getOrElse from 'get-or-else';
@@ -79,13 +40,58 @@ export const name = (state = {}, action = {}) => {
 };
 ```
 
+
+### Example ES6 React
+see this repo [get-or-else-demo](https://github.com/benbowes/get-or-else-demo)
+```javascript
+import React from 'react';
+import ReactDOM from 'react-dom';
+import getOrElse from 'get-or-else';
+
+const nameObj = {
+  salutation: 'Mr',
+  name: {
+    first: 'James'
+  }
+};
+
+const salutation = getOrElse({  get: [nameObj,'salutation'], else: false });
+
+const NameComponent = () => {
+  return (
+    <h1>
+      We have been expecting you
+
+      {salutation && <span> {salutation} </span>}
+
+      <span> {getOrElse({ get: [nameObj,'name.first'], else: '' })}</span>
+
+      <span> {getOrElse({ get: [nameObj,'name.last'], else: '' })}</span>
+    </h1>
+  );
+};
+
+ReactDOM.render(<NameComponent />, document.getElementById('root'));
+
+/* NameComponent Renders `
+<h1>
+  We have been expecting you
+  <span> Mr </span>
+  <span>James</span>
+  <span></span>
+</h1>`
+
+nameObj.name.last does not exist so it does not display
+*/
+```
+
 ### NPM Package
 [get-or-else](https://www.npmjs.com/package/get-or-else)
 
 ### Browser compatibility
 IE 9 or greater - [Array.every on Mozilla's compatibility chart](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/every#Browser_compatibility)
 
-### The Module
+### The getOrElse Module
 
 ```javascript
 /**
