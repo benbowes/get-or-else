@@ -26,7 +26,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import getOrElse from 'get-or-else';
 
-const data = {
+const nameObj = {
   salutation: 'Mr',
   name: {
     first: 'James'
@@ -34,7 +34,7 @@ const data = {
 };
 
 const salutation = getOrElse({
-  get: [data,'salutation'],
+  get: [nameObj,'salutation'],
   else: false
 });
 
@@ -42,8 +42,8 @@ const BaseComponent = () => {
   return (
     <h1>We have been expecting you
     {salutation && <span> {salutation} </span>}
-    <span> {getOrElse({ get:[data,'name.first'], else:''})}</span>
-    <span> {getOrElse({ get:[data,'name.last'], else:''})}</span>
+    <span> {getOrElse({ get: [nameObj,'name.first'], else: '' })}</span>
+    <span> {getOrElse({ get: [nameObj,'name.last'], else: '' })}</span>
     </h1>
   );
 };
