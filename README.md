@@ -41,9 +41,13 @@ const salutation = getOrElse({
 const BaseComponent = () => {
   return (
     <h1>We have been expecting you
+
     {salutation && <span> {salutation} </span>}
+
     <span> {getOrElse({ get: [nameObj,'name.first'], else: '' })}</span>
+
     <span> {getOrElse({ get: [nameObj,'name.last'], else: '' })}</span>
+
     </h1>
   );
 };
@@ -51,7 +55,28 @@ const BaseComponent = () => {
 ReactDOM.render(<BaseComponent />, document.getElementById('root'));
 
 // Renders `<h1>We have been expecting you<span> Mr </span><span>James</span><span></span></h1>`
-// data.name.last does not exist so it does not display
+// nameObj.name.last does not exist so it does not display
+```
+
+### Example ES6 Redux
+```javascript
+import getOrElse from 'get-or-else';
+
+export const name = (state = {}, action = {}) => {
+
+  switch(action.type) {
+
+  case 'SET_NAME':
+    return {
+      ...state,
+      ...getOrElse({ get: [action,'payload.name'], else: {} });
+    };
+
+  default:
+    return state;
+
+  }
+};
 ```
 
 ### NPM Package
