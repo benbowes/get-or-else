@@ -28,15 +28,14 @@ export const name = (state = {}, action = {}) => {
 
   switch(action.type) {
 
-  case 'SET_NAME':
-    return {
-      ...state,
-      ...getOrElse({ get: [action,'payload.name'], else: {} });
-    };
+    case 'SET_NAME':
+      return {
+        ...state,
+        name: getOrElse({ get: [action,'payload.name'], else: undefined })
+      };
 
-  default:
-    return state;
-
+    default:
+      return state;
   }
 };
 ```
@@ -63,7 +62,7 @@ const NameComponent = () => {
     <h1>
       We have been expecting you
 
-      {salutation && <span> {salutation} </span>}
+      {salutation && <span> {salutation}</span>}
 
       <span> {getOrElse({ get: [nameObj,'name.first'], else: '' })}</span>
 
@@ -77,8 +76,8 @@ ReactDOM.render(<NameComponent />, document.getElementById('root'));
 /* NameComponent Renders `
 <h1>
   We have been expecting you
-  <span> Mr </span>
-  <span>James</span>
+  <span> Mr</span>
+  <span> James</span>
   <span></span>
 </h1>`
 
@@ -91,40 +90,6 @@ nameObj.name.last does not exist so it does not display
 
 ### Browser compatibility
 IE 9 or greater - [Array.every on Mozilla's compatibility chart](https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Array/every#Browser_compatibility)
-
-### The getOrElse Module
-
-```javascript
-/**
- * @param {Object} getOrElseObj
- * @param {Array} getOrElseObj.get
- * @param {Object} getOrElseObj.get[0] - the root object to your namespace.
- * e.g. this, window, someObj (Must exist).
- * @param {String} getOrElseObj.get[1] - a string representation of the namespace you
- * are targeting to get it's property. e.g. 'a.b.c.d'
- * @returns {Object} the item you hope for `get`, or a backup item `else` if it does not exist.
- * @example
- * GIVEN
- * window.a = {x:4}
- *
- * getOrElse({ get: [window,'a.b.c'], else: {} }) // {} - does not exist, so `else` is used
- * getOrElse({ get: [window,'a'], else: {} }) // {x:4} - does exist, so expected value is returned
- */
-
-var getOrElse = function( getOrElseObj ) {
-  if (!getOrElseObj.get[0]) return getOrElseObj.else;
-  var contextObj = getOrElseObj.get[0];
-  var namespace = getOrElseObj.get[1].split('.');
-  var value = contextObj; // reassigns to obj[key] on each array.every iteration
-  return (
-    namespace.every( function( key ) {
-      return (value = value[key]) != undefined
-    })
-  ) ? value : getOrElseObj.else;
-};
-
-module.exports = getOrElse;
-```
 
 ### Run the tests
 Given you have [Node](https://nodejs.org/en/) installed, `cd` into this folder and:
