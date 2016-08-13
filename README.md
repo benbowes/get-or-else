@@ -1,6 +1,7 @@
 # get-or-else
 
 ![Build status](https://api.travis-ci.org/benbowes/get-or-else.svg)
+![dependencies](https://img.shields.io/badge/dependencies-none-brightgreen.svg)
 
 Simple Get Or Else module written in JavaScript ES5.
 
