@@ -28,10 +28,10 @@ export const name = (state = {}, action = {}) => {
 
   switch(action.type) {
 
-    case 'SET_NAME':
+    case 'SET_FIRSTNAME':
       return {
         ...state,
-        name: getOrElse({ get: [action,'payload.name'], else: undefined })
+        firstName: getOrElse({ get: [action,'payload.name.first'], else: undefined })
       };
 
     default:
