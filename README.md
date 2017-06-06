@@ -13,11 +13,13 @@ Useful if you have an untrustworthy data source. It will probably save you a bit
 ```javascript
 var getOrElse = require("get-or-else");
 
-window.a = {x:4};
-getOrElse({ get: [window,'a.b.c'], else: {} });
-// {} - does not exist, so `else` is used
-getOrElse({ get: [window,'a'], else: {} })
-// {x:4} - does exist, so expected value is returned
+window.a = { x: 4 };
+
+getOrElse([ window, 'a.b.c' ], {});
+// returns {} as window.a.b.c does not exist, so `else` is used
+
+getOrElse([ window, 'a' ], {});
+// returns { x: 4 } as window.a does exist, so expected value is returned
 ```
 
 ### Example ES6 Redux
@@ -31,7 +33,7 @@ export const name = (state = {}, action = {}) => {
     case 'SET_FIRSTNAME':
       return {
         ...state,
-        firstName: getOrElse({ get: [action,'payload.name.first'], else: undefined })
+        firstName: getOrElse([ action, 'payload.name.first' ], undefined)
       };
 
     default:
@@ -55,18 +57,15 @@ const nameObj = {
   }
 };
 
-const salutation = getOrElse({  get: [nameObj,'salutation'], else: false });
+const salutation = getOrElse([ nameObj, 'salutation' ], false);
 
 const NameComponent = () => {
   return (
     <h1>
       We have been expecting you
-
       {salutation && <span> {salutation}</span>}
-
-      <span> {getOrElse({ get: [nameObj,'name.first'], else: '' })}</span>
-
-      <span> {getOrElse({ get: [nameObj,'name.last'], else: '' })}</span>
+      <span> {getOrElse([ nameObj, 'name.first' ], '')}</span>
+      <span> {getOrElse([ nameObj,'name.last' ], '')}</span>
     </h1>
   );
 };

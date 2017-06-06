@@ -14,16 +14,16 @@
  * getOrElse({ get: [window,'a'], else: {} }) // {x:4} - does exist, so expected value is returned
  */
 
-var getOrElse = function( getOrElseObj ) {
-  if (!getOrElseObj.get[0]) return getOrElseObj.else;
-  var contextObj = getOrElseObj.get[0];
-  var namespace = getOrElseObj.get[1].split('.');
+var getOrElse = function( get, backup ) {
+  if (!get[0]) return backup;
+  var contextObj = get[0];
+  var namespace = get[1].split('.');
   var value = contextObj; // reassigns to obj[key] on each array.every iteration
   return (
     namespace.every( function( key ) {
       return (value = value[key]) != undefined;
     })
-	) ? value : getOrElseObj.else;
+	) ? value : backup;
 };
 
 module.exports = getOrElse;
