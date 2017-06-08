@@ -7,80 +7,74 @@ Simple Get Or Else module written in JavaScript ES5.
 
 Request an object property at a given namespace with a backup value, incase the desired namespace does not yield a result.
 
-Useful if you have an untrustworthy data source. It will probably save you a bit of if, else-ery.
+Useful if you have an untrustworthy or deeply nested data source. It will probably save you a bit of if, else-ery.
 
 ### Example ES5
 ```javascript
-var getOrElse = require("get-or-else");
+var get = require("get-or-else");
 
 window.a = { x: 4 };
 
-getOrElse([ window, 'a.b.c' ], {});
+get([ window, 'a.b.c' ], {});
 // returns {} as window.a.b.c does not exist, so `else` is used
 
-getOrElse([ window, 'a' ], {});
+get([ window, 'a' ], {});
 // returns { x: 4 } as window.a does exist, so expected value is returned
 ```
 
 ### Example ES6 Redux
 ```javascript
-import getOrElse from 'get-or-else';
+import get from 'get-or-else';
 
 export const name = (state = {}, action = {}) => {
-
   switch(action.type) {
-
     case 'SET_FIRSTNAME':
       return {
         ...state,
-        firstName: getOrElse([ action, 'payload.name.first' ], undefined)
+        firstName: get([ action, 'payload.name.first' ], undefined)
       };
-
     default:
       return state;
   }
 };
 ```
 
-
 ### Example ES6 React
 see this repo [get-or-else-demo](https://github.com/benbowes/get-or-else-demo)
 ```javascript
 import React from 'react';
 import ReactDOM from 'react-dom';
-import getOrElse from 'get-or-else';
+import get from 'get-or-else';
 
 const nameObj = {
-  salutation: 'Mr',
-  name: {
-    first: 'James'
+  details: {
+    salutation: undefined,
+    name: {
+      first: 'Margaret'
+    }
   }
 };
 
-const salutation = getOrElse([ nameObj, 'salutation' ], false);
+const NameComponent = () => (
+  <h1>
+    Welcome {get([ nameObj, 'details.salutation' ], 'back')}
+    <span> {get([ nameObj, 'details.name.first' ], '')}</span>
+    <span> {get([ nameObj, 'details.name.last' ], '')}</span>
+  </h1>
+);
 
-const NameComponent = () => {
-  return (
-    <h1>
-      We have been expecting you
-      {salutation && <span> {salutation}</span>}
-      <span> {getOrElse([ nameObj, 'name.first' ], '')}</span>
-      <span> {getOrElse([ nameObj,'name.last' ], '')}</span>
-    </h1>
-  );
-};
-
-ReactDOM.render(<NameComponent />, document.getElementById('root'));
+ReactDOM.render(
+  <NameComponent />,
+  document.getElementById('root')
+);
 
 /* NameComponent Renders `
 <h1>
-  We have been expecting you
-  <span> Mr</span>
-  <span> James</span>
-  <span></span>
+  Welcome back<span> Margaret</span><span></span>
 </h1>`
 
-nameObj.name.last does not exist so it does not display
+nameObj.details.salutation does not exist so the backup value is used
+nameObj.details.name.last does not exist so it does not display
 */
 ```
 

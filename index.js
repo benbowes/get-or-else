@@ -1,29 +1,32 @@
 /**
- * @param {Object} getOrElseObj
- * @param {Array} getOrElseObj.get
- * @param {Object} getOrElseObj.get[0] - the root object to your namespace.
+ * @param {Array} get - the namespace including 2 parts as follows...
+ * @param {Object} get[0] - the root object to your namespace.
  * e.g. this, window, someObj (Must exist).
- * @param {String} getOrElseObj.get[1] - a string representation of the namespace you
+ * @param {String} get[1] - a string representation of the namespace you
  * are targeting to get it's property. e.g. 'a.b.c.d'
- * @returns {Object} the item you hope for `get`, or a backup item `else` if it does not exist.
+ * @param {Any type of object} backup - the backup value to return if the requested namespace does not yeild a result
+ * @returns the item you hope to get from your namespace, or the backup item if it does not exist.
  * @example
+ *
  * GIVEN
  * window.a = {x:4}
  *
- * getOrElse({ get: [window,'a.b.c'], else: ':/' }) // ':/' - does not exist, so `none` is used
- * getOrElse({ get: [window,'a'], else: {} }) // {x:4} - does exist, so expected value is returned
+ * get([window, 'a.b.c'], ':/')
+ * // => ':/' - namespace does not exist, so backup value is used
+ *
+ * get([window,'a'], {})
+ * // => {x:4} - namespace exists so expected value is returned
  */
 
-var getOrElse = function( get, backup ) {
-  if (!get[0]) return backup;
-  var contextObj = get[0];
+var get = function( get, backup ) {
+  var contextObjext = get[0];
+  if (!contextObjext) return backup;
   var namespace = get[1].split('.');
-  var value = contextObj; // reassigns to obj[key] on each array.every iteration
-  return (
-    namespace.every( function( key ) {
-      return (value = value[key]) != undefined;
-    })
-	) ? value : backup;
+  var value = contextObjext;
+  // reassigns to obj[key] on each array.every iteration
+  return ( namespace.every( function(key){ return (value = value[key]) != undefined; }) )
+    ? value
+    : backup;
 };
 
-module.exports = getOrElse;
+module.exports = get;
