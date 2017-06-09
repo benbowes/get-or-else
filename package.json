@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test:lint": "eslint index.js",
-    "test:unit": "mocha index__test__.js",
+    "test:unit": "mocha index__test__.js node_modules/.bin/saul",
     "test": "npm run test:lint && npm run test:unit"
   },
   "repository": {
@@ -31,5 +31,8 @@
     "eslint": "^3.2.2",
     "expect": "^1.20.2",
     "mocha": "^3.0.2"
+  },
+  "dependencies": {
+    "saul": "0.0.15"
   }
 }
