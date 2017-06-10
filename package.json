@@ -33,6 +33,6 @@
     "mocha": "^3.0.2"
   },
   "dependencies": {
-    "saul": "0.0.15"
+    "saul": "0.0.17"
   }
 }
